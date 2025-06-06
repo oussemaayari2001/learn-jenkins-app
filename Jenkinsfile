@@ -40,23 +40,24 @@ pipeline {
         }
 
 stage('Deployment') {
-           agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-              npm install netlify-cli
-              node_modules/.bin/netlify --version
-              echo "deployment to $NETLIFY_SITE_ID succeded"
-              node_modules/.bin/netlify status
-              node_modules/.bin/netlify deploy --dir=build --prod
-
-                '''
-            }
+    agent {
+        docker {
+            image 'node:18-alpine'
+            reuseNode true
         }
+    }
+    steps {
+        sh '''
+          apk update && apk add --no-cache bash
+          npm install netlify-cli
+          node_modules/.bin/netlify --version
+          echo "Deployment to $NETLIFY_SITE_ID succeeded"
+          node_modules/.bin/netlify status
+          node_modules/.bin/netlify deploy --dir=build --prod
+        '''
+    }
+}
+
 
 
 
