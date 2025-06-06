@@ -52,6 +52,8 @@ stage('Deployment') {
               node_modules/.bin/netlify --version
               echo "deployment to $NETLIFY_SITE_ID succeded"
               node_modules/.bin/netlify status
+              node_modules/.bin/netlify deploy --dir=build --prod
+
                 '''
             }
         }
